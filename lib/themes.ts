@@ -1,26 +1,7 @@
-export type ThemeName = string;
-export const THEMES = new Set<ThemeName>([
-    'india',
-    'mindaro',
-    'navy',
-    'pink',
-    'rust',
-    'syracuse',
-    'tea',
-    'tomato'
-]);
-export const DARK_THEMES = new Set<ThemeName>([
-    'india',
-    'navy',
-    'rust'
-]);
-export const LIGHT_THEMES = new Set<ThemeName>([
-    'mindaro',
-    'pink',
-    'syracuse',
-    'tea',
-    'tomato'
-]);
+export type ThemeName = 'india' | 'mindaro' | 'navy' | 'pink' | 'rust' | 'syracuse' | 'tea' | 'tomato';
+export const THEMES = new Set<ThemeName>(['india', 'mindaro', 'navy', 'pink', 'rust', 'syracuse', 'tea', 'tomato']);
+export const DARK_THEMES = new Set<ThemeName>(['india', 'navy', 'rust']);
+export const LIGHT_THEMES = new Set<ThemeName>(['mindaro', 'pink', 'syracuse', 'tea', 'tomato']);
 
 export type ColorScheme = 'light' | 'dark';
 
@@ -112,15 +93,16 @@ export interface ThemeProps {
 }
 
 export class Theme {
-    private readonly themes = new Set<ThemeName>();
-    private defaultTheme?: ThemeName;
-    private listeners = new Map<string, ThemeListener>();
+    private readonly listeners = new Map<string, ThemeListener>();
     private readonly themeAnimationDelay = 2000;
-    private themeChangeTimeout?: NodeJS.Timeout;
-    private defaultColorScheme?: ColorScheme;
+    private readonly themes = new Set<ThemeName>();
 
-    private LOCALSTORAGE_THEME_KEY: string;
-    private LOCALSTORAGE_COLOR_SCHEME_KEY: string;
+    private readonly LOCALSTORAGE_THEME_KEY = 'theme';
+    private readonly LOCALSTORAGE_COLOR_SCHEME_KEY = 'color_scheme';
+
+    private defaultColorScheme?: ColorScheme;
+    private defaultTheme?: ThemeName;
+    private themeChangeTimeout?: NodeJS.Timeout;
 
     // eslint-disable-next-line class-methods-use-this
     getStyles(theme?: ThemeOptions<ThemeOption>) {
@@ -169,7 +151,9 @@ export class Theme {
             this.themeChangeTimeout = undefined;
         }, this.themeAnimationDelay);
 
-        this.listeners.forEach((listener) => listener(theme, this.getColorScheme()));
+        const colorScheme = this.getColorScheme();
+        for (const [, listener] of this.listeners)
+            listener(theme, colorScheme);
     }
 
     private onColorSchemeChange() {
@@ -184,7 +168,7 @@ export class Theme {
         }
 
         if (!theme)
-            throw Error('Failed to get theme on color scheme change');
+            throw new Error('Failed to get theme on color scheme change');
 
         const colorScheme = this.getColorScheme();
 
@@ -212,28 +196,28 @@ export class Theme {
     }
 
     getColorScheme(): ColorScheme {
-        const colorScheme = window.localStorage.getItem(this.LOCALSTORAGE_COLOR_SCHEME_KEY);
+        const colorScheme = globalThis.localStorage.getItem(this.LOCALSTORAGE_COLOR_SCHEME_KEY);
         if (colorScheme) {
             if (colorScheme !== 'dark' && colorScheme !== 'light')
-                window.localStorage.removeItem(this.LOCALSTORAGE_COLOR_SCHEME_KEY);
+                globalThis.localStorage.removeItem(this.LOCALSTORAGE_COLOR_SCHEME_KEY);
             else
                 return colorScheme;
         }
 
-        if (window.matchMedia(COLOR_SCHEME_DARK).matches)
+        if (globalThis.matchMedia(COLOR_SCHEME_DARK).matches)
             return 'dark';
 
-        if (window.matchMedia(COLOR_SCHEME_LIGHT).matches)
+        if (globalThis.matchMedia(COLOR_SCHEME_LIGHT).matches)
             return 'light';
 
-        return this.defaultColorScheme || 'dark';
+        return this.defaultColorScheme ?? 'dark';
     }
 
     getDefaultTheme(colorScheme?: ColorScheme) {
         if (this.defaultTheme)
             return this.defaultTheme;
 
-        const cs = colorScheme || this.getColorScheme();
+        const cs = colorScheme ?? this.getColorScheme();
 
         if (cs === 'dark')
             return Array.from(DARK_THEMES)[0];
@@ -242,14 +226,14 @@ export class Theme {
     }
 
     getTheme() {
-        const theme = window.localStorage.getItem(this.LOCALSTORAGE_THEME_KEY);
+        const theme = globalThis.localStorage.getItem(this.LOCALSTORAGE_THEME_KEY) as ThemeName | null;
 
         console.debug('Get theme; have:', theme);
 
         if (!theme || !this.themes.has(theme)) {
             console.warn('No theme or not in supported list; getting default theme...');
 
-            window.localStorage.removeItem(this.LOCALSTORAGE_THEME_KEY);
+            globalThis.localStorage.removeItem(this.LOCALSTORAGE_THEME_KEY);
 
             return this.getDefaultTheme();
         }
@@ -261,7 +245,7 @@ export class Theme {
         console.debug('Set theme:', theme);
 
         if (this.themes.has(theme)) {
-            window.localStorage.setItem(this.LOCALSTORAGE_THEME_KEY, theme);
+            globalThis.localStorage.setItem(this.LOCALSTORAGE_THEME_KEY, theme);
 
             this.updateTheme(theme);
         }
@@ -276,16 +260,16 @@ export class Theme {
 
     setColorScheme(colorScheme?: ColorScheme) {
         if (colorScheme)
-            window.localStorage.setItem(this.LOCALSTORAGE_COLOR_SCHEME_KEY, colorScheme);
+            globalThis.localStorage.setItem(this.LOCALSTORAGE_COLOR_SCHEME_KEY, colorScheme);
         else
-            window.localStorage.removeItem(this.LOCALSTORAGE_COLOR_SCHEME_KEY);
+            globalThis.localStorage.removeItem(this.LOCALSTORAGE_COLOR_SCHEME_KEY);
 
         this.onColorSchemeChange();
     }
 
     getThemeColorScheme(theme?: ThemeName): ColorScheme {
         const currentTheme = this.getTheme();
-        const useTheme = theme || currentTheme;
+        const useTheme = theme ?? currentTheme;
         if (!useTheme)
             return 'dark';
 
@@ -312,20 +296,24 @@ export class Theme {
 
         if (useAllThemes) {
             console.debug('Using all themes...');
-            THEMES.forEach((t) => this.themes.add(t));
+
+            for (const t of THEMES)
+                this.themes.add(t);
         }
         else {
             console.debug('Allowed themes', allowedThemes);
 
             if (defaultTheme)
                 this.themes.add(defaultTheme);
-            allowedThemes.forEach((t) => this.themes.add(t));
+
+            for (const t of allowedThemes)
+                this.themes.add(t);
         }
 
         try {
-            if (window.matchMedia) {
-                window.matchMedia(COLOR_SCHEME_DARK).addEventListener('change', this.onColorSchemeChange);
-                window.matchMedia(COLOR_SCHEME_LIGHT).addEventListener('change', this.onColorSchemeChange);
+            if (globalThis.matchMedia) {
+                globalThis.matchMedia(COLOR_SCHEME_DARK).addEventListener('change', this.onColorSchemeChange);
+                globalThis.matchMedia(COLOR_SCHEME_LIGHT).addEventListener('change', this.onColorSchemeChange);
             }
         }
         catch (err) {
@@ -339,9 +327,6 @@ export class Theme {
     }
 
     constructor() {
-        this.LOCALSTORAGE_COLOR_SCHEME_KEY = 'color_scheme';
-        this.LOCALSTORAGE_THEME_KEY = 'theme';
-
         this.onColorSchemeChange = this.onColorSchemeChange.bind(this);
     }
 }

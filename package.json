@@ -3,9 +3,9 @@
     "description": "A collection of styles to make routine designs simpler.",
     "license": "MIT",
     "name": "@syren-dev-tech/confetti",
-    "packageManager": "yarn@4.9.1",
+    "packageManager": "yarn@4.11.0",
     "type": "module",
-    "version": "0.1.0",
+    "version": "0.0.0",
     "files": [
         "scss",
         "dist"
@@ -24,12 +24,14 @@
         }
     },
     "devDependencies": {
-        "@syren-dev-tech/concauses": "0.1.0",
-        "@types/node": "^22.15.19",
-        "eslint": "^9.27.0",
-        "knip": "^5.56.0",
-        "sass": "^1.89.0",
-        "typescript": "^5.8.3"
+        "@eslint/js": "^9.26.0",
+        "@syren-dev-tech/concauses": "^0.1.0",
+        "@types/node": "^22.15.17",
+        "eslint": "^9.26.0",
+        "knip": "^5.55.1",
+        "sass": "^1.87.0",
+        "typescript": "^5.8.3",
+        "typescript-eslint": "^8.32.0"
     },
     "peerDependencies": {
         "sass": ">=1.83"

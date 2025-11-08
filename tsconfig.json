@@ -2,12 +2,10 @@
     "compilerOptions": {
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
-        "baseUrl": "./",
-        "esModuleInterop": false,
         "forceConsistentCasingInFileNames": true,
         "isolatedModules": true,
         "module": "esnext",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "declaration": true,
         "declarationDir": "./dist",
         "outDir": "./dist",
