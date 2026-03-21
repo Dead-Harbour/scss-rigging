@@ -2,23 +2,21 @@
 @use '../registry';
 
 $theme: (
-    primary:#f2545b,
-    secondary:#a93f55,
-    trinary:#19323c,
-    primary-compliment:#f3f7f0,
-    secondary-compliment:#8c5e58,
-    trinary-compliment: #869596
+  primary:#f2545b,
+  secondary:#a93f55,
+  trinary:#19323c,
+  primary-compliment:#f3f7f0,
+  secondary-compliment:#8c5e58,
+  trinary-compliment: #869596
 );
-
 $base: (
-    main: #272020,
-    body: #3c3232,
-    content: #514444,
-    divider: #ab9b9b
+  main: #272020,
+  body: #3c3232,
+  content: #514444,
+  divider: #ab9b9b
 );
-
 $palette: map.merge($theme, $base);
 
 @mixin register() {
-    @include registry.register-theme('india', $palette, 'dark', 'india');
+  @include registry.register-theme('india', $palette, 'dark', 'india');
 }

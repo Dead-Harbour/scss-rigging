@@ -8,6 +8,7 @@ interface Overrides {
 
 const PACKAGE_NAME = '@syren-dev-tech/confetti';
 
+// eslint-disable-next-line complexity
 export function viteConfigAliases(overrides?: Overrides) {
     return {
         [overrides?.coloring ?? '~coloring']: PACKAGE_NAME + '/_coloring.scss',
@@ -15,5 +16,5 @@ export function viteConfigAliases(overrides?: Overrides) {
         [overrides?.layout ?? '~layout']: PACKAGE_NAME + '/_layout.scss',
         [overrides?.styling ?? '~styling']: PACKAGE_NAME + '/_styling.scss',
         [overrides?.themes ?? '~themes']: PACKAGE_NAME + '/_themes.scss'
-    }
+    };
 }

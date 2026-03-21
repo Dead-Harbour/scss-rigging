@@ -4,25 +4,24 @@
  * reverse : Setting to any value except 0 (like 1) reverses the column / row style.
  */
 @mixin flex($center: false, $column: false, $reverse: false) {
-    display: flex;
+  display: flex;
 
-    @if $center {
-        align-items: center;
-    }
+  @if $center {
+    align-items: center;
+  }
 
-    @if $column {
-        @if $reverse {
-            flex-direction: column-reverse;
-        }
-
-        @else {
-            flex-direction: column;
-        }
-    }
-
+  @if $column {
     @if $reverse {
-        flex-direction: row-reverse;
+      flex-direction: column-reverse;
     }
+    @else {
+      flex-direction: column;
+    }
+  }
+
+  @if $reverse {
+    flex-direction: row-reverse;
+  }
 }
 
 /**
@@ -33,9 +32,9 @@
  * reverse : Setting to any value except 0 (like 1) reverses the column / row style.
  */
 @mixin flex-between($center: false, $column: false, $reverse: false) {
-    @include flex($center, $column, $reverse);
+  @include flex($center, $column, $reverse);
 
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 /**
@@ -46,9 +45,9 @@
  * reverse : Setting to any value except 0 (like 1) reverses the column / row style.
  */
 @mixin flex-even($center: false, $column: false, $reverse: false) {
-    @include flex($center, $column, $reverse);
+  @include flex($center, $column, $reverse);
 
-    justify-content: space-evenly;
+  justify-content: space-evenly;
 }
 
 /**
@@ -59,9 +58,9 @@
  * reverse : Setting to any value except 0 (like 1) reverses the column / row style.
  */
 @mixin flex-start($center: false, $column: false, $reverse: false) {
-    @include flex($center, $column, $reverse);
+  @include flex($center, $column, $reverse);
 
-    justify-content: flex-start;
+  justify-content: flex-start;
 }
 
 /**
@@ -72,9 +71,9 @@
  * reverse : Setting to any value except 0 (like 1) reverses the column / row style.
  */
 @mixin flex-end($center: false, $column: false, $reverse: false) {
-    @include flex($center, $column, $reverse);
+  @include flex($center, $column, $reverse);
 
-    justify-content: flex-end;
+  justify-content: flex-end;
 }
 
 /**
@@ -85,7 +84,7 @@
  * reverse : Setting to any value except 0 (like 1) reverses the column / row style.
  */
 @mixin flex-center($center: false, $column: false, $reverse: false) {
-    @include flex($center, $column, $reverse);
+  @include flex($center, $column, $reverse);
 
-    justify-content: center;
+  justify-content: center;
 }

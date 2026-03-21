@@ -8,83 +8,79 @@ $theme-mode-map: (
 );
 
 @function repl($str, $from, $to) {
-    $index: string.index($str, $from);
+  $index: string.index($str, $from);
 
-    @if $index {
-        $end: repl(string.splice($str, $index + string.length($from)), $from, $to);
+  @if $index {
+    $end: repl(string.splice($str, $index + string.length($from)), $from, $to);
 
-        @return string.slice($str, 1, $index - 1)+($to)+($end);
-    }
+    @return string.slice($str, 1, $index - 1) + ($to) + ($end);
+  }
 
-    @return $str;
+  @return $str;
 }
 
 @function repl-recur($v, $merge-theme, $theme) {
-    @each $a, $b in $v {
-        @if meta.type-of($b)==string {
-            @each $category, $color in $merge-themes {
-                $b: string.unquote(repl(repl($b, $category, $color), '"', ''));
-            }
+  @each $a, $b in $v {
+    @if meta.type-of($b) == string {
+      @each $category, $color in $merge-themes {
+        $b: string.unquote(repl(repl($b, $category, $color), '"', ''));
+      }
 
-            @each $category, $color in $theme {
-                $b: string.unquote(repl(repl($b, $category, $color), '"', ''));
-            }
-        }
-
-        @else if meta.type-of($b)==map {
-            $b: repl-recur($b, $merge-theme, $theme);
-        }
-
-        @debug ('mapping value'$a$b);
-
-        $v: map.set($v, $a, $b);
+      @each $category, $color in $theme {
+        $b: string.unquote(repl(repl($b, $category, $color), '"', ''));
+      }
+    }
+    @else if meta.type-of($b) == map {
+      $b: repl-recur($b, $merge-theme, $theme);
     }
 
-    @return $v;
+    @debug ('mapping value'$a$b);
+
+    $v: map.set($v, $a, $b);
+  }
+
+  @return $v;
 }
 
 @mixin register-theme($name, $theme, $color-mode, $inverse) {
-    @debug ('register theme'$name);
+  @debug ('register theme'$name);
 
-    @if map.has-key($theme-map, $name) {
-        $merge-theme: map.get($theme-map, $name);
+  @if map.has-key($theme-map, $name) {
+    $merge-theme: map.get($theme-map, $name);
 
-        @debug ('merging with existing', $merge-theme);
+    @debug ('merging with existing', $merge-theme);
 
-        @each $k, $v in $theme {
-            @debug ($k$v);
+    @each $k, $v in $theme {
+      @debug ($k$v);
 
-            @if meta.type-of($v)==map {
-                $v: repl-recur($v, $merge-theme, $theme);
-                $merge-theme: map.set($merge-theme, $k, $v);
-            }
-
-            @else if map.has-key($merge-theme, $v) {
-                $mapped-value: map.get($merge-theme, $v);
-                $merge-theme: map.set($merge-theme, $k, $mapped-value);
-            }
-
-            @else {
-                $merge-theme: map.set($merge-theme, $k, $v);
-            }
-        }
-
-        $theme-map: map.set($theme-map, $name, $merge-theme) !global;
+      @if meta.type-of($v) == map {
+        $v: repl-recur($v, $merge-theme, $theme);
+        $merge-theme: map.set($merge-theme, $k, $v);
+      }
+      @else if map.has-key($merge-theme, $v) {
+        $mapped-value: map.get($merge-theme, $v);
+        $merge-theme: map.set($merge-theme, $k, $mapped-value);
+      }
+      @else {
+        $merge-theme: map.set($merge-theme, $k, $v);
+      }
     }
 
-    @else {
-        @debug ('defining new theme', $name, 'with scheme', $color-mode, 'and inverse', $inverse);
+    $theme-map: map.set($theme-map, $name, $merge-theme) !global;
+  }
+  @else {
+    @debug ('defining new theme', $name, 'with scheme', $color-mode, 'and inverse', $inverse);
 
-        $theme: repl-recur($theme, (), $theme);
-        $theme-map: map.merge($theme-map, (#{$name}: $theme)) !global;
-        $theme-mode-map: map.merge($theme-mode-map, (#{$name}: '#{$color-mode}|#{$inverse}')) !global;
-    }
+    $theme: repl-recur($theme, (), $theme);
+    $theme-map: map.merge($theme-map, (#{$name}: $theme)) !global;
+    $theme-mode-map: map.merge($theme-mode-map, (#{$name}: '#{$color-mode}|#{$inverse}')) !global;
+  }
 }
 
 @function themes() {
-    @return $theme-map;
+  @return $theme-map;
 }
 
 @function modes() {
-    @return $theme-mode-map;
+  @return $theme-mode-map;
 }

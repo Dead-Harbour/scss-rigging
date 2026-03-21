@@ -1,4 +1,4 @@
-import type { StyleFormat, StyleMode, StyleName, StyleOption } from "./types";
+import type { StyleFormat, StyleMode, StyleName, StyleOption } from './types';
 
 function getStyleClass(format: StyleFormat, style: StyleName, mode?: StyleMode, mono?: number) {
     if (style === 'none')

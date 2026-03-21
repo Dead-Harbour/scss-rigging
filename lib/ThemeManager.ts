@@ -1,5 +1,5 @@
-import { ThemeOptions } from "./ThemeOptions";
-import type { ColorScheme, ITheme, IThemeOptions, StyleName, ThemeName } from "./types";
+import { ThemeOptions } from './ThemeOptions';
+import type { ColorScheme, ITheme, IThemeOptions, StyleName, ThemeName } from './types';
 
 export type ThemeListener = (theme: ThemeName, colorScheme: ColorScheme) => void;
 
@@ -19,7 +19,7 @@ export class ThemeManager {
     private themeChangeTimeout?: NodeJS.Timeout;
 
     private themeGetter: () => string;
-    private readonly themeSetter: (theme: string) => void
+    private readonly themeSetter: (theme: string) => void;
     private schemeGetter: () => ColorScheme | null;
     private readonly schemeSetter: (scheme: ColorScheme | null) => void;
 
@@ -39,7 +39,7 @@ export class ThemeManager {
         if (this.themeChangeTimeout)
             clearTimeout(this.themeChangeTimeout);
 
-        this.themeChangeTimeout = this.themeChangeTimeout = setTimeout(() => {
+        this.themeChangeTimeout = setTimeout(() => {
             document.body.classList.remove(THEME_CHANGE_CLASS);
 
             this.themeChangeTimeout = undefined;
@@ -80,7 +80,7 @@ export class ThemeManager {
             return 'light';
         }
 
-        console.debug('Get scheme from storage')
+        console.debug('Get scheme from storage');
 
         return this.schemeGetter();
     }
@@ -162,11 +162,18 @@ export class ThemeManager {
 
     basicTheme(theme: StyleName, options?: IThemeOptions) {
         return new ThemeOptions({
-            background: { style: theme, ...options?.background },
-            border: { style: theme, mono: this.getScheme() === 'dark' && 1 || -1, ...options?.border },
+            background: {
+                style: theme,
+                ...options?.background
+            },
+            border: {
+                mono: this.getScheme() === 'dark' && 1 || -1,
+                style: theme,
+                ...options?.border
+            },
+            boxShadow: options?.boxShadow,
             text: options?.text,
-            textShadow: options?.textShadow,
-            boxShadow: options?.boxShadow
+            textShadow: options?.textShadow
         });
     }
 
@@ -207,10 +214,10 @@ export class ThemeManager {
                     ...acc,
                     [key]: {
                         inverse,
-                        scheme: scheme as ColorScheme,
-                        name: key
+                        name: key,
+                        scheme: scheme as ColorScheme
                     }
-                }
+                };
             }, {} as Record<string, ITheme>);
 
         for (const theme in themes) {

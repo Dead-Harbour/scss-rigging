@@ -2,9 +2,9 @@
 @use 'common/main' as main;
 
 html {
-    @include main.main;
+  @include main.main;
 
-    #root {
-        @include f.flex;
-    }
+  #root {
+    @include f.flex;
+  }
 }

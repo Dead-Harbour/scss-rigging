@@ -2,17 +2,17 @@
 @use 'sass:color';
 @use 'sass:meta';
 
-$red_threshold: 0.299;
-$green_threshold: 0.587;
-$blue_threshold: 0.114;
-$font_threshold: 135; // 186
+$red-threshold: 0.299;
+$green-threshold: 0.587;
+$blue-threshold: 0.114;
+$font-threshold: 135; // 186
 
 @function is-color($value) {
-    @return meta.type-of($value)==color;
+  @return meta.type-of($value) == color;
 }
 
 @function color-channel($color, $channel) {
-    @return color.channel($color, $channel, rgb);
+  @return color.channel($color, $channel, rgb);
 }
 
 /**
@@ -20,109 +20,107 @@ $font_threshold: 135; // 186
  *          : and complimented to rgb(0, 255, 255).
  */
 @function compliment($color) {
-    @if $color ==null or $color ==none {
-        @return rgb(0, 0, 0);
-    }
+  @if not $color or $color == none {
+    @return rgb(0, 0, 0);
+  }
 
-    $a: color-channel($color, "red");
-    $b: color-channel($color, "green");
-    $c: color-channel($color, "blue");
+  $a: color-channel($color, 'red');
+  $b: color-channel($color, 'green');
+  $c: color-channel($color, 'blue');
+  $max: math.max($a, $b, $c);
+  $min: math.min($a, $b, $c);
+  $sum: $max + $min;
+  $r: $sum - $a;
+  $g: $sum - $b;
+  $b: $sum - $c;
 
-    $max: math.max($a, $b, $c);
-    $min: math.min($a, $b, $c);
-    $sum: $max + $min;
-
-    $r: $sum - $a;
-    $g: $sum - $b;
-    $b: $sum - $c;
-
-    @return rgb($r, $g, $b);
+  @return rgb($r, $g, $b);
 }
 
 @function invert($color) {
-    @if is-color($color) {
-        @return color.invert($color);
-    }
+  @if is-color($color) {
+    @return color.invert($color);
+  }
 
-    @return $color;
+  @return $color;
 }
 
 /**
  * color : Any color like #ff0000 or rgb(255, 0, 0).
  */
 @function use-black-font($color) {
-    @if $color ==none {
-        @return false;
-    }
+  @if not $color or $color == none {
+    @return false;
+  }
 
-    @if is-color($color) {
-        $r: color-channel($color, "red");
-        $g: color-channel($color, "green");
-        $b: color-channel($color, "blue");
+  @if is-color($color) {
+    $r: color-channel($color, 'red');
+    $g: color-channel($color, 'green');
+    $b: color-channel($color, 'blue');
 
-        @return ($r*$red_threshold + $g*$green_threshold + $b*$blue_threshold)>$font_threshold;
-    }
+    @return ($r * $red-threshold + $g * $green-threshold + $b * $blue-threshold) > $font-threshold;
+  }
 
-    @return true;
+  @return true;
 }
 
 /**
  * color : Any color like #ff0000 or rgb(255, 0, 0).
  */
 @function color-for-background($color) {
-    @if is-color($color) {
-        @if use-black-color($color) {
-            @return #000;
-        }
-
-        @return #fff;
+  @if is-color($color) {
+    @if use-black-color($color) {
+      @return #000;
     }
 
-    @return inherit;
+    @return #fff;
+  }
+
+  @return inherit;
 }
 
 @function color-mix($color-a, $color-b) {
-    $a1: color-channel($color-a, 'red');
-    $a2: color-channel($color-a, 'green');
-    $a3: color-channel($color-a, 'blue');
-    $b1: color-channel($color-b, 'red');
-    $b2: color-channel($color-b, 'green');
-    $b3: color-channel($color-b, 'blue');
-    $x: math.round(math.div($a1 + $b1, 2));
-    $y: math.round(math.div($a2 + $b2, 2));
-    $z: math.round(math.div($a3 + $b3, 2));
+  $a1: color-channel($color-a, 'red');
+  $a2: color-channel($color-a, 'green');
+  $a3: color-channel($color-a, 'blue');
+  $b1: color-channel($color-b, 'red');
+  $b2: color-channel($color-b, 'green');
+  $b3: color-channel($color-b, 'blue');
+  $x: math.round(math.div($a1 + $b1, 2));
+  $y: math.round(math.div($a2 + $b2, 2));
+  $z: math.round(math.div($a3 + $b3, 2));
 
-    @return rgb($x, $y, $z);
+  @return rgb($x, $y, $z);
 }
 
 @function greyfill($n: 0, $a: 1) {
-    @return hsla(0, 0%, 100% - $n, $a);
+  @return hsla(0, 0%, 100% - $n, $a);
 }
 
 @function monochrome($color, $amount) {
-    @if $color ==none {
-        @return none;
-    }
+  @if not $color or $color == none {
+    @return none;
+  }
 
-    @if $amount ==0 {
-        @return $color;
-    }
-
-    @if is-color($color) {
-        $r: color-channel($color, 'red');
-        $g: color-channel($color, 'green');
-        $b: color-channel($color, 'blue');
-
-        @if $amount >0 {
-            $x: 255 - $r;
-            $y: 255 - $g;
-            $z: 255 - $b;
-
-            @return rgb($r + $x * $amount, $g + $y * $amount, $b + $z * $amount);
-        }
-
-        @return rgb($r + $r * $amount, $g + $g * $amount, $b + $b * $amount);
-    }
-
+  @if $amount == 0 {
     @return $color;
+  }
+
+  @if is-color($color) {
+    $r: color-channel($color, 'red');
+    $g: color-channel($color, 'green');
+    $b: color-channel($color, 'blue');
+
+    @if $amount > 0 {
+      $x: 255 - $r;
+      $y: 255 - $g;
+      $z: 255 - $b;
+
+      @return rgb($r + $x * $amount, $g + $y * $amount, $b + $z * $amount);
+    }
+
+    @return rgb($r + $r * $amount, $g + $g * $amount, $b + $b * $amount);
+  }
+
+  @return $color;
 }

@@ -5,13 +5,12 @@
  *          : becomes `calc(100% - 10px)`.
  */
 @mixin wide($shrink: null) {
-    @if $shrink {
-        width: calc(100% - #{$shrink});
-    }
-
-    @else {
-        width: 100%;
-    }
+  @if $shrink {
+    width: calc(100% - #{$shrink});
+  }
+  @else {
+    width: 100%;
+  }
 }
 
 /**
@@ -21,13 +20,12 @@
  *   : becomes `calc(100% - 10px)`.
  */
 @mixin tall($shrink: null) {
-    @if $shrink {
-        height: calc(100% - #{$shrink});
-    }
-
-    @else {
-        height: 100%;
-    }
+  @if $shrink {
+    height: calc(100% - #{$shrink});
+  }
+  @else {
+    height: 100%;
+  }
 }
 
 /**
@@ -37,6 +35,6 @@
  * y : Any size measurement like 10px or 10%.
  */
 @mixin fullsize($x: null, $y: null) {
-    @include wide($x);
-    @include tall($y);
+  @include wide($x);
+  @include tall($y);
 }

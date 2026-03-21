@@ -2,23 +2,21 @@
 @use '../registry';
 
 $theme: (
-    primary:#af3800,
-    secondary:#fe621d,
-    trinary:#fd5200,
-    primary-compliment:#00cfc1,
-    secondary-compliment:#00ffe7,
-    trinary-compliment:#00e8d5
+  primary:#af3800,
+  secondary:#fe621d,
+  trinary:#fd5200,
+  primary-compliment:#00cfc1,
+  secondary-compliment:#00ffe7,
+  trinary-compliment:#00e8d5
 );
-
 $base: (
-    main: #4a1d11,
-    body: #602514,
-    content: #7e2f19,
-    divider: #9d3b21
+  main: #4a1d11,
+  body: #602514,
+  content: #7e2f19,
+  divider: #9d3b21
 );
-
 $palette: map.merge($theme, $base);
 
 @mixin register() {
-    @include registry.register-theme('rust', $palette, 'dark', 'rust');
+  @include registry.register-theme('rust', $palette, 'dark', 'rust');
 }

@@ -3,8 +3,7 @@
 @use 'sass:map';
 @use '../common/functions/coloring' as coloring;
 
-$backgrounds: (
-);
+$backgrounds: ();
 $texts: (
 );
 $borders: (
@@ -15,75 +14,72 @@ $text-shadows: (
 );
 
 @mixin hover-style($color) {
-    @content('', $color);
+  @content('', $color);
 
-    @if coloring.is-color($color) {
-        @if coloring.color-for-background($color)==#000 {
-            @content('.btn:not(:disabled):hover', coloring.monochrome($color, -0.4));
-            @content('.input:not(:disabled):hover', coloring.monochrome($color, -0.4));
-            @content('.hvr:hover', coloring.monochrome($color, -0.4));
-        }
-
-        @else {
-            @content('.btn:not(:disabled):hover', coloring.monochrome($color, 0.25));
-            @content('.input:not(:disabled):hover', coloring.monochrome($color, 0.25));
-            @content('.hvr:hover', coloring.monochrome($color, 0.25));
-        }
+  @if coloring.is-color($color) {
+    @if coloring.color-for-background($color) == #000 {
+      @content('.btn:not(:disabled):hover', coloring.monochrome($color, -0.4));
+      @content('.input:not(:disabled):hover', coloring.monochrome($color, -0.4));
+      @content('.hvr:hover', coloring.monochrome($color, -0.4));
     }
+    @else {
+      @content('.btn:not(:disabled):hover', coloring.monochrome($color, 0.25));
+      @content('.input:not(:disabled):hover', coloring.monochrome($color, 0.25));
+      @content('.hvr:hover', coloring.monochrome($color, 0.25));
+    }
+  }
 }
 
 @function append-to-map($map, $rule, $color, $appended-rules) {
-    $key: $color;
-    $rule-name: '.theme#{$rule}#{$appended-rules}';
-    $def: map.get($map, $key);
+  $key: $color;
+  $rule-name: '.theme#{$rule}#{$appended-rules}';
+  $def: map.get($map, $key);
 
-    @if $def {
-        @if list.length($def)>0 {
-            $def: list.append($def, $rule-name);
-        }
-
-        @else {
-            $def: (
-                $rule-name
-            );
+  @if $def {
+    @if list.length($def) > 0 {
+      $def: list.append($def, $rule-name);
     }
-}
-
-@else {
-    $def: (
+    @else {
+      $def: (
         $rule-name
+      );
+    }
+  }
+  @else {
+    $def: (
+      $rule-name
     );
-}
+  }
 
-@return map.set($map, $key, $def);
+  @return map.set($map, $key, $def);
 }
 
 @mixin background-style($rule, $color) {
-    @include hover-style($color) using ($etc, $color-out) {
-        $backgrounds: append-to-map($backgrounds, $rule, $color-out, $etc) !global;
-    }
+  @include hover-style($color) using ($etc, $color-out) {
+    $backgrounds: append-to-map($backgrounds, $rule, $color-out, $etc) !global;
+  }
 }
 
 @mixin border-style($rule, $color) {
-    @include hover-style($color) using ($etc, $color-out) {
-        $borders: append-to-map($borders, $rule, $color-out, $etc) !global;
-    }
+  @include hover-style($color) using ($etc, $color-out) {
+    $borders: append-to-map($borders, $rule, $color-out, $etc) !global;
+  }
 }
 
 @mixin text-style($rule, $color) {
-    @include hover-style($color) using ($etc, $color-out) {
-        $texts: append-to-map($texts, $rule, $color-out, $etc) !global;
-    }
+  @include hover-style($color) using ($etc, $color-out) {
+    $texts: append-to-map($texts, $rule, $color-out, $etc) !global;
+  }
 }
 
 @mixin box-shadow-style($rule, $color) {
-    @include hover-style($color) using ($etc, $color-out) {
-        $box-shadows: append-to-map($box-shadows, $rule, $color-out, $etc) !global;
-    }
+  @include hover-style($color) using ($etc, $color-out) {
+    $box-shadows: append-to-map($box-shadows, $rule, $color-out, $etc) !global;
+  }
 }
 
 @mixin text-shadow-style($rule, $color) {
-    @include hover-style($color) using ($etc, $color-out) {
-        $text-shadows: append-to-map($text-shadows, $rule, $color-out, $etc) !global;
-    }
+  @include hover-style($color) using ($etc, $color-out) {
+    $text-shadows: append-to-map($text-shadows, $rule, $color-out, $etc) !global;
+  }
 }

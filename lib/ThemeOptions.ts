@@ -1,5 +1,5 @@
-import { backgroundStyle, borderStyle, boxShadowStyle, textShadowStyle, textStyle } from "./helpers";
-import { IThemeOptions, StyleOption, ThemeOptionsModifier } from "./types";
+import { backgroundStyle, borderStyle, boxShadowStyle, textShadowStyle, textStyle } from './helpers';
+import { IThemeOptions, StyleOption, ThemeOptionsModifier } from './types';
 
 function getOptions(opt: ThemeOptions, ...options: (IThemeOptions | undefined)[]) {
     if (options.length === 0)
@@ -27,7 +27,7 @@ export class ThemeOptions implements IThemeOptions {
         const classes: string[] = [];
 
         if (modifier?.listable === 1)
-            classes.push('li')
+            classes.push('li');
 
         if (this.background)
             classes.push(backgroundStyle(this.background));

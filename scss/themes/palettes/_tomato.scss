@@ -2,23 +2,21 @@
 @use '../registry';
 
 $theme: (
-    primary:#fe4a49,
-    secondary:#2ab7ca,
-    trinary:#fed766,
-    primary-compliment:#e6e6ea,
-    secondary-compliment:#f4f4f8,
-    trinary-compliment: #ceceb4
+  primary:#fe4a49,
+  secondary:#2ab7ca,
+  trinary:#fed766,
+  primary-compliment:#e6e6ea,
+  secondary-compliment:#f4f4f8,
+  trinary-compliment: #ceceb4
 );
-
 $base: (
-    main: #fff5ee,
-    body: #ffe4d8,
-    content: #ffd1c2,
-    divider: #5f2925
+  main: #fff5ee,
+  body: #ffe4d8,
+  content: #ffd1c2,
+  divider: #5f2925
 );
-
 $palette: map.merge($theme, $base);
 
 @mixin register() {
-    @include registry.register-theme('tomato', $palette, 'light', 'tomato');
+  @include registry.register-theme('tomato', $palette, 'light', 'tomato');
 }

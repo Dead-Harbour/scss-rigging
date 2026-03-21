@@ -1,8 +1,27 @@
-import { StyleName, ThemeName } from "./types";
+import { StyleName, ThemeName } from './types';
 
-export const THEMES = new Set<ThemeName>(['india', 'mindaro', 'navy', 'pink', 'rust', 'syracuse', 'tea', 'tomato']);
-export const DARK_THEMES = new Set<ThemeName>(['india', 'navy', 'rust']);
-export const LIGHT_THEMES = new Set<ThemeName>(['mindaro', 'pink', 'syracuse', 'tea', 'tomato']);
+export const THEMES = new Set<ThemeName>([
+'india',
+'mindaro',
+'navy',
+'pink',
+'rust',
+'syracuse',
+'tea',
+'tomato'
+]);
+export const DARK_THEMES = new Set<ThemeName>([
+'india',
+'navy',
+'rust'
+]);
+export const LIGHT_THEMES = new Set<ThemeName>([
+'mindaro',
+'pink',
+'syracuse',
+'tea',
+'tomato'
+]);
 
 export const STYLES = new Set<StyleName>([
     'active',
