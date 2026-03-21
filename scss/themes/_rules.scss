@@ -1,0 +1,131 @@
+@use 'sass:string';
+@use 'sass:meta';
+@use 'sass:map';
+@use '../common/functions/coloring' as coloring;
+
+@mixin auto-color($color) {
+    @if coloring.use-black-font($color) {
+        color: black;
+    }
+
+    @else {
+        color: white;
+    }
+}
+
+@mixin background-rule($color) {
+    @if coloring.is-color($color) {
+        @include auto-color($color);
+        background-color: $color;
+
+        &.li {
+            @if coloring.use-black-font($color) {
+                background-color: coloring.monochrome($color, 0.15);
+            }
+
+            @else {
+                background-color: coloring.monochrome($color, -0.1);
+            }
+        }
+    }
+
+    @else {
+        background: $color;
+    }
+}
+
+@mixin border-rule($color) {
+    @if coloring.is-color($color) {
+        border-color: $color;
+    }
+
+    @else if meta.type-of($color)==map {
+        $top: map.get($color, top);
+        $right: map.get($color, right);
+        $bottom: map.get($color, bottom);
+        $left: map.get($color, left);
+
+        @if coloring.is-color($top) {
+            border-top-color: $top;
+        }
+
+        @else if $top {
+            border-top: $top;
+        }
+
+        @if coloring.is-color($right) {
+            border-right-color: $right;
+        }
+
+        @else if $right {
+            border-right: $right;
+        }
+
+        @if coloring.is-color($bottom) {
+            border-bottom-color: $bottom;
+        }
+
+        @else if $bottom {
+            border-bottom: $bottom;
+        }
+
+        @if coloring.is-color($left) {
+            border-left-color: $left;
+        }
+
+        @else if $left {
+            border-left: $left;
+        }
+    }
+
+    @else {
+        border: $color;
+    }
+}
+
+@mixin apply-rule($key, $color, $rules) {
+    $unique: string.unique-id();
+
+    %#{key}-#{$unique} {
+        @content;
+    }
+
+    @each $rule in $rules {
+        @if $rule {
+            #{$rule} {
+                @debug ('applying rule: #{$rule} with color: #{$color} for key: #{$key}');
+                @extend %#{key}-#{$unique};
+            }
+        }
+    }
+}
+
+@mixin apply-background-rules($color, $rules) {
+    @include apply-rule('background', $color, $rules) {
+        @include background-rule($color);
+    }
+}
+
+@mixin apply-border-rules($color, $rules) {
+    @include apply-rule('border', $color, $rules) {
+        @include border-rule($color);
+    }
+}
+
+@mixin apply-text-rules($color, $rules) {
+    @include apply-rule('text', $color, $rules) {
+        color: $color;
+    }
+}
+
+@mixin apply-box-shadow-rules($color, $rules) {
+    @include apply-rule('box-shadow', $color, $rules) {
+        box-shadow: #{$color};
+    }
+}
+
+@mixin apply-text-shadow-rules($color, $rules) {
+    @include apply-rule('text-shadow', $color, $rules) {
+        text-shadow: #{$color};
+    }
+}

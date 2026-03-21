@@ -12,24 +12,14 @@
             border-#{$side}-#{$corner}-radius: $radius;
         }
 
-        @else if $side ==top {
-            border-top-right-radius: $radius;
-            border-top-left-radius: $radius;
+        @else if $side ==top or $side ==bottom {
+            border-#{$side}-left-radius: $radius;
+            border-#{$side}-right-radius: $radius;
         }
 
-        @else if $side ==right {
-            border-top-right-radius: $radius;
-            border-bottom-right-radius: $radius;
-        }
-
-        @else if $side ==bottom {
-            border-bottom-left-radius: $radius;
-            border-bottom-right-radius: $radius;
-        }
-
-        @else if $side ==left {
-            border-top-left-radius: $radius;
-            border-bottom-left-radius: $radius;
+        @else if $side ==left or $side ==right {
+            border-#{$side}-top-radius: $radius;
+            border-#{$side}-bottom-radius: $radius;
         }
     }
 
@@ -38,9 +28,14 @@
     }
 }
 
+@mixin square($padding: 2px) {
+    padding: $padding;
+    border-radius: 0;
+}
+
 /**
  * Sets border radius to 50%, making square elements circular.
  */
 @mixin circular() {
-    @include rounded(50%);
+    border-radius: 50%;
 }

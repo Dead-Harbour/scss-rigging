@@ -1,0 +1,88 @@
+@use 'sass:map';
+@use 'sass:meta';
+@use '../common/functions/coloring' as coloring;
+@use 'definitions' as defs;
+@use 'registry' as registry;
+@use 'rules' as rules;
+@use 'theme.mixins' as theme-mixins;
+
+@mixin theme($name, $theme) {
+    @debug ('applying theme: #{$name}');
+
+    @each $category, $definition in $theme {
+        @if meta.type-of($definition)==map {
+            $background: map.get($definition, 'background');
+            $text: map.get($definition, 'text');
+            $border: map.get($definition, 'border');
+            $box-shadow: map.get($definition, 'box-shadow');
+            $text-shadow: map.get($definition, 'text-shadow');
+
+            @if $background {
+                @include defs.define-background($name, $category, $background);
+            }
+
+            @if $text {
+                @include defs.define-text($name, $category, $text);
+            }
+
+            @if $border {
+                @include defs.define-border($name, $category, $border);
+            }
+
+            @if $box-shadow {
+                @include defs.define-box-shadow($name, $category, $box-shadow);
+            }
+
+            @if $text-shadow {
+                @include defs.define-text-shadow($name, $category, $text-shadow);
+            }
+        }
+
+        @else {
+            @include defs.define-backgrounds($name, $category, $definition);
+            @include defs.define-borders($name, $category, $definition);
+            @include defs.define-box-shadows($name, $category, $definition);
+            @include defs.define-texts($name, $category, $definition);
+            @include defs.define-text-shadows($name, $category, $definition);
+        }
+    }
+}
+
+@mixin apply() {
+    @debug ('applying registered themes...');
+
+    $themes: registry.themes();
+    $modes: registry.modes();
+
+    @each $name, $theme in $themes {
+        @include theme($name, $theme);
+    }
+
+    body.theme {
+        @each $name, $theme in $themes {
+            $mode: map.get($modes, $name);
+
+            --#{$name}: #{$mode};
+        }
+    }
+
+    @each $color, $rules in theme-mixins.$backgrounds {
+        @include rules.apply-background-rules($color, $rules);
+    }
+
+    @each $color, $rules in theme-mixins.$borders {
+        @include rules.apply-border-rules($color, $rules);
+    }
+
+    @each $color, $rules in theme-mixins.$texts {
+        @include rules.apply-text-rules($color, $rules);
+    }
+
+    @each $color, $rules in theme-mixins.$box-shadows {
+        @include rules.apply-box-shadow-rules($color, $rules);
+    }
+
+    @each $color, $rules in theme-mixins.$text-shadows {
+        @include rules.apply-text-shadow-rules($color, $rules);
+    }
+}

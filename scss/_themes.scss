@@ -1,2 +1,51 @@
-@forward 'themes/palettes';
-@forward 'themes/themeify';
+@forward 'common/functions/coloring';
+@forward 'themes/registry';
+@use 'sass:list';
+@use 'themes/theme';
+
+@use 'themes/palettes/india';
+@use 'themes/palettes/mindaro';
+@use 'themes/palettes/navy';
+@use 'themes/palettes/pink';
+@use 'themes/palettes/rust';
+@use 'themes/palettes/syracuse';
+@use 'themes/palettes/tea';
+@use 'themes/palettes/tomato';
+
+@mixin use-themes($themes) {
+    @if list.index($themes, 'india') {
+        @include india.register();
+    }
+
+    @if list.index($themes, 'mindaro') {
+        @include mindaro.register();
+    }
+
+    @if list.index($themes, 'navy') {
+        @include navy.register();
+    }
+
+    @if list.index($themes, 'pink') {
+        @include pink.register();
+    }
+
+    @if list.index($themes, 'rust') {
+        @include rust.register();
+    }
+
+    @if list.index($themes, 'syracuse') {
+        @include syracuse.register();
+    }
+
+    @if list.index($themes, 'tea') {
+        @include tea.register();
+    }
+
+    @if list.index($themes, 'tomato') {
+        @include tomato.register();
+    }
+}
+
+@mixin apply() {
+    @include theme.apply;
+}

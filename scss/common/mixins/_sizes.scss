@@ -1,16 +1,16 @@
 /**
- * n : Any size measurement like 10px or 10%.
- *   : By default, 0 means `width: 100%`.
- *   : Any other value is subtracted from 100%, where 10px
- *   : becomes `calc(100% - 10px)`.
+ * shrink   : Any size measurement like 10px or 10%.
+ *          : By default, 0 means `width: 100%`.
+ *          : Any other value is subtracted from 100%, where 10px
+ *          : becomes `calc(100% - 10px)`.
  */
-@mixin wide($n : 0) {
-    @if $n ==0 {
-        width: 100%;
+@mixin wide($shrink: null) {
+    @if $shrink {
+        width: calc(100% - #{$shrink});
     }
 
     @else {
-        width: calc(100% - $n);
+        width: 100%;
     }
 }
 
@@ -20,13 +20,13 @@
  *   : Any other value is subtracted from 100%, where 10px
  *   : becomes `calc(100% - 10px)`.
  */
-@mixin tall($n : 0) {
-    @if $n ==0 {
-        height: 100%;
+@mixin tall($shrink: null) {
+    @if $shrink {
+        height: calc(100% - #{$shrink});
     }
 
     @else {
-        height: calc(100% - $n);
+        height: 100%;
     }
 }
 
@@ -36,7 +36,7 @@
  * x : Any size measurement like 10px or 10%.
  * y : Any size measurement like 10px or 10%.
  */
-@mixin fullsize($x : 0, $y: 0) {
+@mixin fullsize($x: null, $y: null) {
     @include wide($x);
     @include tall($y);
 }

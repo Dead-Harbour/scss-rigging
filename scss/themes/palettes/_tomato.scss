@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use '../registry';
 
 $theme: (
     primary:#fe4a49,
@@ -17,3 +18,7 @@ $base: (
 );
 
 $palette: map.merge($theme, $base);
+
+@mixin register() {
+    @include registry.register-theme('tomato', $palette, 'light', 'tomato');
+}
