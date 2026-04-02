@@ -36,7 +36,7 @@
     @include syracuse.register;
   }
 
-  @if list.index($themes, 'tea') {
+  @if list.index($themes, 'tea-light') or list.index($themes, 'tea-dark') {
     @include tea.register;
   }
 

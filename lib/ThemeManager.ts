@@ -50,10 +50,12 @@ export class ThemeManager {
         const currentTheme = this.getTheme();
         const currentScheme = this.getScheme();
 
-        console.debug('Update theme by scheme to', currentTheme?.name, currentScheme);
+        console.debug('Update theme by scheme to:', currentScheme);
 
         if (currentTheme) {
-            if (currentTheme.scheme === currentScheme) {
+            console.debug('Current theme is', currentTheme.name, 'with scheme', currentTheme.scheme);
+
+            if (currentTheme.scheme !== currentScheme) {
                 console.debug('Current scheme does not match current theme\'s; inverting...');
 
                 this.setTheme(this.themes.get(currentTheme.inverse));
@@ -68,15 +70,13 @@ export class ThemeManager {
     getScheme() {
         if (globalThis.matchMedia(COLOR_SCHEME_DARK).matches) {
             console.debug('Prefer dark scheme');
-            if (this.schemeGetter())
-                this.setScheme();
+            this.setScheme('dark');
             return 'dark';
         }
 
         if (globalThis.matchMedia(COLOR_SCHEME_LIGHT).matches) {
             console.debug('Prefer light scheme');
-            if (this.schemeGetter())
-                this.setScheme();
+            this.setScheme('light');
             return 'light';
         }
 

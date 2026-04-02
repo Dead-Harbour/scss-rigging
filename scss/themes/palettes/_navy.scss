@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use '../registry';
+@use 'common';
 
 $theme: (
   primary:#00072d,
@@ -9,14 +10,24 @@ $theme: (
   secondary-compliment:#a6e1fa,
   trinary-compliment: #537494
 );
-$base: (
+$light-base: (
+  main: #e9eefc,
+  body: #d7e1fa,
+  content: #c3d2f6,
+  divider: #a7bbed
+);
+$dark-base: (
   main: #02041b,
   body: #0b122d,
   content: #1a233f,
   divider: #2c3659
 );
-$palette: map.merge($theme, $base);
+$light-palette: map.merge($theme, $light-base);
+$light-palette: map.merge($light-palette, common.$palette);
+$dark-palette: map.merge($theme, $dark-base);
+$dark-palette: map.merge($dark-palette, common.$palette);
 
 @mixin register() {
-  @include registry.register-theme('navy', $palette, 'dark', 'navy');
+  @include registry.register-theme('navy-light', $light-palette, 'light', 'navy-dark');
+  @include registry.register-theme('navy-dark', $dark-palette, 'dark', 'navy-light');
 }

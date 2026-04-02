@@ -1,4 +1,4 @@
-export type ThemeName = 'india' | 'mindaro' | 'navy' | 'pink' | 'rust' | 'syracuse' | 'tea' | 'tomato';
+export type ThemeName = 'india' | 'mindaro' | 'navy' | 'pink' | 'rust' | 'syracuse' | 'tea-light' | 'tea-dark' | 'tomato';
 
 export type ColorScheme = 'light' | 'dark';
 

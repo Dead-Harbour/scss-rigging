@@ -53,6 +53,9 @@
   $themes: registry.themes();
   $modes: registry.modes();
 
+  @debug ('registered themes:', $themes);
+  @debug ('registered modes:', $modes);
+
   @each $name, $theme in $themes {
     @include theme($name, $theme);
   }

@@ -1,26 +1,28 @@
 import { StyleName, ThemeName } from './types';
 
 export const THEMES = new Set<ThemeName>([
-'india',
-'mindaro',
-'navy',
-'pink',
-'rust',
-'syracuse',
-'tea',
-'tomato'
+    'india',
+    'mindaro',
+    'navy',
+    'pink',
+    'rust',
+    'syracuse',
+    'tea-light',
+    'tea-dark',
+    'tomato'
 ]);
 export const DARK_THEMES = new Set<ThemeName>([
-'india',
-'navy',
-'rust'
+    'india',
+    'navy',
+    'rust',
+    'tea-dark'
 ]);
 export const LIGHT_THEMES = new Set<ThemeName>([
-'mindaro',
-'pink',
-'syracuse',
-'tea',
-'tomato'
+    'mindaro',
+    'pink',
+    'syracuse',
+    'tea-light',
+    'tomato'
 ]);
 
 export const STYLES = new Set<StyleName>([

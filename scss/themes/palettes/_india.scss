@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use '../registry';
+@use 'common';
 
 $theme: (
   primary:#f2545b,
@@ -9,14 +10,24 @@ $theme: (
   secondary-compliment:#8c5e58,
   trinary-compliment: #869596
 );
-$base: (
+$light-base: (
+  main: #f8f2f2,
+  body: #f0e4e4,
+  content: #e5d1d1,
+  divider: #ceb5b5
+);
+$dark-base: (
   main: #272020,
   body: #3c3232,
   content: #514444,
   divider: #ab9b9b
 );
-$palette: map.merge($theme, $base);
+$light-palette: map.merge($theme, $light-base);
+$light-palette: map.merge($light-palette, common.$palette);
+$dark-palette: map.merge($theme, $dark-base);
+$dark-palette: map.merge($dark-palette, common.$palette);
 
 @mixin register() {
-  @include registry.register-theme('india', $palette, 'dark', 'india');
+  @include registry.register-theme('india-light', $light-palette, 'light', 'india-dark');
+  @include registry.register-theme('india-dark', $dark-palette, 'dark', 'india-light');
 }
