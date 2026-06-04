@@ -1,3 +1,3 @@
-import { stylelint } from '@syren-dev-tech/concauses/stylelint';
+import { stylelint } from '@dead-harbour/shipshape/stylelint';
 
 export default { ...stylelint() };

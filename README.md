@@ -1,4 +1,4 @@
-# CoNfetti
+# SCSS Rigging
 
 Why does this "package" exist?
 
@@ -17,7 +17,7 @@ To include theme definitions, your "root" SCSS file should include something lik
 
 ```scss
 @use '~themes' as themes;
-@use '@chrisofnormandy/confetti/main.scss';
+@use '@dead-harbour/scss-rigging/main.scss';
 
 @include themes.themeify();
 ```
@@ -52,7 +52,7 @@ This takes an optional "overrides" argument that lets you define SCSS import ali
 
 For example, by default, the "layouts" related mixins and functions use `~layout` and can be imported like `@use '~layout' as layout;`.
 With the override `{layout: '~bungus'}`, you can import instead like `@use '~bungus' as bungus`.
-Alternatively, you can use the full path: `@chrisofnormandy/confetti/_layout.scss`.
+Alternatively, you can use the full path: `@dead-harbour/scss-rigging/_layout.scss`.
 
 ## Themes
 
@@ -61,17 +61,17 @@ Themes are implemented like the following:
 ```tsx
 // App.tsx
 
-import { themes } from '@chrisofnormandy/confetti/themes';
+import { themes } from '@dead-harbour/scss-rigging/themes';
 import { useEffect } from 'react';
 
 function App() {
-    useEffect(() => themes.init(), []);
+    useEffect(() => {themes.init();}, []);
 
     return // ...
 }
 ```
 
-> I recommend using my React components library [CoNfects](https://github.com/ChrisOfNormandy/confects) `ThemeSelector` to implement theme switching.
+> I recommend using my [React Elements package](https://github.com/Dead-Harbour/react-elements) to implement theme switching.
 
 You can implement a basic theme selector and listener for media color scheme (light / dark mode) changes using:
 
