@@ -2,10 +2,10 @@
     "author": "ChrisOfNormandy",
     "description": "A collection of styles to make routine designs simpler.",
     "license": "MIT",
-    "name": "@syren-dev-tech/confetti",
+    "name": "@dead-harbour/scss-rigging",
     "packageManager": "yarn@4.16.0",
     "type": "module",
-    "version": "0.2.1-0",
+    "version": "1.0.0",
     "files": [
         "scss",
         "dist"
