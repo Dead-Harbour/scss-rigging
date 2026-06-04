@@ -1,0 +1,38 @@
+/**
+ * radius : Some border radius amount.
+ * side   : The side to apply the radius style to.
+ *        : Null means "all sides."
+ * corder : The corner to apply the radius style to.
+ *        : Requires side, combined like "top" and "left."
+ *        : Null means "all corners."
+ */
+@mixin rounded($radius: 10px, $side: null, $corner: null) {
+  @if $side {
+    @if $corner {
+      border-#{$side}-#{$corner}-radius: $radius;
+    }
+    @else if $side == top or $side == bottom {
+      border-#{$side}-left-radius: $radius;
+      border-#{$side}-right-radius: $radius;
+    }
+    @else if $side == left or $side == right {
+      border-#{$side}-top-radius: $radius;
+      border-#{$side}-bottom-radius: $radius;
+    }
+  }
+  @else {
+    border-radius: $radius;
+  }
+}
+
+@mixin square($padding: 2px) {
+  padding: $padding;
+  border-radius: 0;
+}
+
+/**
+ * Sets border radius to 50%, making square elements circular.
+ */
+@mixin circular() {
+  border-radius: 50%;
+}

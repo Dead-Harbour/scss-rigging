@@ -1,19 +1,33 @@
 @use 'sass:map';
+@use '../registry';
+@use 'common';
 
 $theme: (
-    primary:#af3800,
-    secondary:#fe621d,
-    trinary:#fd5200,
-    primary-compliment:#00cfc1,
-    secondary-compliment:#00ffe7,
-    trinary-compliment:#00e8d5
+  primary:#af3800,
+  secondary:#fe621d,
+  trinary:#fd5200,
+  primary-compliment:#00cfc1,
+  secondary-compliment:#00ffe7,
+  trinary-compliment:#00e8d5
 );
-
-$base: (
-    main: #4a1d11,
-    body: #602514,
-    content: #7e2f19,
-    divider: #9d3b21
+$light-base: (
+  main: #f8eee9,
+  body: #f2dfd3,
+  content: #e8c8b5,
+  divider: #d6a88d
 );
+$dark-base: (
+  main: #4a1d11,
+  body: #602514,
+  content: #7e2f19,
+  divider: #9d3b21
+);
+$light-palette: map.merge($theme, $light-base);
+$light-palette: map.merge($light-palette, common.$palette);
+$dark-palette: map.merge($theme, $dark-base);
+$dark-palette: map.merge($dark-palette, common.$palette);
 
-$palette: map.merge($theme, $base);
+@mixin register() {
+  @include registry.register-theme('rust-light', $light-palette, 'light', 'rust-dark');
+  @include registry.register-theme('rust-dark', $dark-palette, 'dark', 'rust-light');
+}

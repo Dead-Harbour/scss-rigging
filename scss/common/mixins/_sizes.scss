@@ -1,0 +1,40 @@
+/**
+ * shrink   : Any size measurement like 10px or 10%.
+ *          : By default, 0 means `width: 100%`.
+ *          : Any other value is subtracted from 100%, where 10px
+ *          : becomes `calc(100% - 10px)`.
+ */
+@mixin wide($shrink: null) {
+  @if $shrink {
+    width: calc(100% - #{$shrink});
+  }
+  @else {
+    width: 100%;
+  }
+}
+
+/**
+ * n : Any size measurement like 10px or 10%.
+ *   : By default, 0 means `height: 100%`.
+ *   : Any other value is subtracted from 100%, where 10px
+ *   : becomes `calc(100% - 10px)`.
+ */
+@mixin tall($shrink: null) {
+  @if $shrink {
+    height: calc(100% - #{$shrink});
+  }
+  @else {
+    height: 100%;
+  }
+}
+
+/**
+ * Applies `wide` and `tall` using the `x` and `y` values respectively.
+ *
+ * x : Any size measurement like 10px or 10%.
+ * y : Any size measurement like 10px or 10%.
+ */
+@mixin fullsize($x: null, $y: null) {
+  @include wide($x);
+  @include tall($y);
+}

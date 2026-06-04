@@ -2,9 +2,10 @@
  * Adds a `:hover` rule that applies content to body.
  */
 @mixin hoverable {
-    &:hover {
-        @content;
-    }
+
+  &:hover {
+    @content;
+  }
 }
 
 /**
@@ -12,8 +13,13 @@
  * Include additional styles to the body to hover.
  */
 @mixin clickable {
-    @include hoverable() {
-        cursor: pointer;
-        @content;
+  @include hoverable {
+    cursor: pointer;
+
+    @content;
+
+    &:disabled {
+      cursor: not-allowed;
     }
+  }
 }

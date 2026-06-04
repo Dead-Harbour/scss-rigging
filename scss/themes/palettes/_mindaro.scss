@@ -1,19 +1,33 @@
 @use 'sass:map';
+@use '../registry';
+@use 'common';
 
 $theme: (
-    primary:#edf67d,
-    secondary:#f896d8,
-    trinary:#ca7df9,
-    primary-compliment:#724cf9,
-    secondary-compliment:#564592,
-    trinary-compliment:#f3c6ab
+  primary:#edf67d,
+  secondary:#f896d8,
+  trinary:#ca7df9,
+  primary-compliment:#724cf9,
+  secondary-compliment:#564592,
+  trinary-compliment:#f3c6ab
 );
-
-$base: (
-    main: #e8e8b2,
-    body: #d6d67a,
-    content: #c2c261,
-    divider: #b3b34b
+$light-base: (
+  main: #f8f9d7,
+  body: #f4f6bd,
+  content: #eff2a3,
+  divider: #e6e87e
 );
+$dark-base: (
+  main: #e8e8b2,
+  body: #d6d67a,
+  content: #c2c261,
+  divider: #b3b34b
+);
+$light-palette: map.merge($theme, $light-base);
+$light-palette: map.merge($light-palette, common.$palette);
+$dark-palette: map.merge($theme, $dark-base);
+$dark-palette: map.merge($dark-palette, common.$palette);
 
-$palette: map.merge($theme, $base);
+@mixin register() {
+  @include registry.register-theme('mindaro-light', $light-palette, 'light', 'mindaro-dark');
+  @include registry.register-theme('mindaro-dark', $dark-palette, 'dark', 'mindaro-light');
+}

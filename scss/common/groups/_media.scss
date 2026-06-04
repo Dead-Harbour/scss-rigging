@@ -1,0 +1,24 @@
+$mobile-width: 480px;
+$tablet-width: 768px;
+$desktop-width: 1920px;
+
+/**
+ * size : One of 'mobile', 'tablet', or 'desktop'.
+ */
+@mixin device($size : 'mobile') {
+  @if $size == 'mobile' {
+    @media screen and (max-width: $mobile-width) {
+      @content;
+    }
+  }
+  @else if $size == 'tablet' {
+    @media screen and (min-width: $mobile-width) and (max-width: $tablet-width) {
+      @content;
+    }
+  }
+  @else if $size == 'desktop' {
+    @media screen and (min-width: $tablet-width) and (max-width: $desktop-width) {
+      @content;
+    }
+  }
+}

@@ -1,0 +1,9 @@
+@mixin centered {
+  transform: translate(-50%, -50%);
+}
+
+@mixin floating($x: 0, $y: 0) {
+  position: absolute;
+  left: $x;
+  top: $y;
+}

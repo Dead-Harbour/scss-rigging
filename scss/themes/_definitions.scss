@@ -1,0 +1,136 @@
+@use 'sass:math';
+@use 'theme.mixins' as theme-mixins;
+@use '../common/functions/coloring' as coloring;
+
+$shades: 5;
+$shade-inc: math.div(1, $shades);
+
+@function get-rule-name($theme-name, $classifier, $name, $inner-rule) {
+  @return '.#{$theme-name} .#{$classifier}-#{$name}#{$inner-rule}';
+}
+
+@mixin lighter($n, $clr) {
+  @if coloring.is-color($clr) {
+    @for $i from 1 through $shades {
+      $shade: coloring.monochrome($clr, $i * $shade-inc);
+
+      @if $shade == $clr {
+        // Do nothing
+      }
+      @else {
+        $rule: '.#{$n}-l#{$i}';
+        @content($rule, $shade);
+      }
+    }
+  }
+  @else {
+    @content('', $clr);
+  }
+}
+
+@mixin darker($n, $clr) {
+  @if coloring.is-color($clr) {
+    @for $i from 0 through $shades {
+      $shade: coloring.monochrome($clr, -$i * $shade-inc);
+
+      @if $shade == $clr and $i > 0 {
+        // Do nothing
+      }
+      @else if $i == 0 and $n == 'f' {
+        @content('', $clr);
+      }
+      @else {
+        $rule: '.#{$n}-d#{$i}';
+        @content($rule, $shade);
+      }
+    }
+  }
+  @else {
+    @content('', $clr);
+  }
+}
+
+@mixin definitions($key, $theme-name, $name, $clr) {
+  @if coloring.is-color($clr) {
+    @include lighter($key, $clr) using ($inner-rule, $lighter-color) {
+      $rule: get-rule-name($theme-name, $key, $name, $inner-rule);
+
+      @content($rule, $lighter-color);
+    }
+
+    @include darker($key, $clr) using ($inner-rule, $darker-color) {
+      $rule: get-rule-name($theme-name, $key, $name, $inner-rule);
+
+      @content($rule, $darker-color);
+    }
+
+    @include lighter('#{$key}c', $clr) using ($inner-rule, $lighter-color) {
+      $rule: get-rule-name($theme-name, $key, $name, $inner-rule);
+
+      @content($rule, coloring.compliment($lighter-color));
+    }
+
+    @include darker('#{$key}c', $clr) using ($inner-rule, $darker-color) {
+      $rule: get-rule-name($theme-name, $key, $name, $inner-rule);
+
+      @content($rule, coloring.compliment($darker-color));
+    }
+
+    @include lighter('#{$key}i', $clr) using ($inner-rule, $lighter-color) {
+      $rule: get-rule-name($theme-name, $key, $name, $inner-rule);
+
+      @content($rule, coloring.invert($lighter-color));
+    }
+
+    @include darker('#{$key}i', $clr) using ($inner-rule, $darker-color) {
+      $rule: get-rule-name($theme-name, $key, $name, $inner-rule);
+
+      @content($rule, coloring.invert($darker-color));
+    }
+  }
+  @else {
+    $rule: get-rule-name($theme-name, $key, $name, '');
+
+    @content($rule, $clr);
+  }
+}
+
+@mixin define-backgrounds($theme-name, $name, $clr) {
+  @debug ('defining background for #{$theme-name} - #{$name}');
+
+  @include definitions('f', $theme-name, $name, $clr) using ($rule, $color) {
+    @include theme-mixins.background-style($rule, $color);
+  }
+}
+
+@mixin define-borders($theme-name, $name, $clr) {
+  @debug ('defining border for #{$theme-name} - #{$name}');
+
+  @include definitions('b', $theme-name, $name, $clr) using ($rule, $color) {
+    @include theme-mixins.border-style($rule, $color);
+  }
+}
+
+@mixin define-texts($theme-name, $name, $clr) {
+  @debug ('defining text colors for #{$theme-name} - #{$name}');
+
+  @include definitions('t', $theme-name, $name, $clr) using ($rule, $color) {
+    @include theme-mixins.text-style($rule, $color);
+  }
+}
+
+@mixin define-box-shadows($theme-name, $name, $clr) {
+  @debug ('defining box-shadow for #{$theme-name} - #{$name}');
+
+  @include definitions('bs', $theme-name, $name, $clr) using ($rule, $color) {
+    @include theme-mixins.box-shadow-style($rule, $color);
+  }
+}
+
+@mixin define-text-shadows($theme-name, $name, $clr) {
+  @debug ('defining text-shadow for #{$theme-name} - #{$name}');
+
+  @include definitions('ts', $theme-name, $name, $clr) using ($rule, $color) {
+    @include theme-mixins.text-shadow-style($rule, $color);
+  }
+}

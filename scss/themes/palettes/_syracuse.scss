@@ -1,19 +1,33 @@
 @use 'sass:map';
+@use '../registry';
+@use 'common';
 
 $theme: (
-    primary:#e53d00,
-    secondary:#ffe900,
-    trinary:#fcfff7,
-    primary-compliment:#21a0a0,
-    secondary-compliment:#046865,
-    trinay-compliment: #00e5b0
+  primary:#e53d00,
+  secondary:#ffe900,
+  trinary:#fcfff7,
+  primary-compliment:#21a0a0,
+  secondary-compliment:#046865,
+  trinay-compliment: #00e5b0
 );
-
-$base: (
-    main: #f37e4b,
-    body: #fff450,
-    content: #fafcfa,
-    divider: #f7cb94
+$light-base: (
+  main: #fff2e6,
+  body: #fff7b8,
+  content: #fff,
+  divider: #ffd9b8
 );
+$dark-base: (
+  main: #f37e4b,
+  body: #fff450,
+  content: #fafcfa,
+  divider: #f7cb94
+);
+$light-palette: map.merge($theme, $light-base);
+$light-palette: map.merge($light-palette, common.$palette);
+$dark-palette: map.merge($theme, $dark-base);
+$dark-palette: map.merge($dark-palette, common.$palette);
 
-$palette: map.merge($theme, $base);
+@mixin register() {
+  @include registry.register-theme('syracuse-light', $light-palette, 'light', 'syracuse-dark');
+  @include registry.register-theme('syracuse-dark', $dark-palette, 'dark', 'syracuse-light');
+}

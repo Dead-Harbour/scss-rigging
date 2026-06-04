@@ -1,13 +1,12 @@
 {
     "compilerOptions": {
         "allowJs": true,
+        "rootDir": "./lib",
         "allowSyntheticDefaultImports": true,
-        "baseUrl": "./",
-        "esModuleInterop": false,
         "forceConsistentCasingInFileNames": true,
         "isolatedModules": true,
         "module": "esnext",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "declaration": true,
         "declarationDir": "./dist",
         "outDir": "./dist",
@@ -25,6 +24,9 @@
             "dom",
             "esnext"
         ],
+        "types": [
+            "node"
+        ]
     },
     "include": [
         "lib"

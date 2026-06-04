@@ -3,9 +3,9 @@
     "description": "A collection of styles to make routine designs simpler.",
     "license": "MIT",
     "name": "@syren-dev-tech/confetti",
-    "packageManager": "yarn@4.9.1",
+    "packageManager": "yarn@4.13.0",
     "type": "module",
-    "version": "0.1.0",
+    "version": "0.2.1-0",
     "files": [
         "scss",
         "dist"
@@ -18,25 +18,32 @@
             "types": "./dist/config.d.ts"
         },
         "./themes": {
-            "import": "./dist/themes.js",
-            "require": "./dist/themes.js",
-            "types": "./dist/themes.d.ts"
+            "import": "./dist/lib.js",
+            "require": "./dist/lib.js",
+            "types": "./dist/lib.d.ts"
         }
     },
     "devDependencies": {
-        "@syren-dev-tech/concauses": "0.1.0",
-        "@types/node": "^22.15.19",
-        "eslint": "^9.27.0",
-        "knip": "^5.56.0",
-        "sass": "^1.89.0",
-        "typescript": "^5.8.3"
+        "@stylistic/stylelint-config": "^5.0.0",
+        "@stylistic/stylelint-plugin": "^5.1.0",
+        "@syren-dev-tech/concauses": "^0.1.3",
+        "@types/node": "^25.5.0",
+        "eslint": "^9.39.4",
+        "knip": "^6.2.0",
+        "postcss": "^8.5.8",
+        "sass": "^1.98.0",
+        "stylelint": "^17.6.0",
+        "stylelint-config-standard": "^40.0.0",
+        "stylelint-config-standard-scss": "^17.0.0",
+        "stylelint-scss": "^7.0.0",
+        "typescript": "^6.0.2"
     },
     "peerDependencies": {
-        "sass": ">=1.83"
+        "sass": ">=1.87"
     },
     "scripts": {
         "build": "tsc -p tsconfig.json",
-        "lint": "eslint ./lib --fix",
+        "lint": "eslint ./lib --fix && yarn stylelint '**/*.scss'",
         "sanity": "yarn typecheck && yarn lint && yarn knip",
         "typecheck": "tsc -p tsconfig.json --noEmit"
     }

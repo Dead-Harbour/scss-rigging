@@ -1,40 +1,10 @@
-* {
-    margin: 0;
-    padding: 0;
-}
+@use 'common/mixins/flex' as f;
+@use 'common/main' as main;
 
 html {
-    height: 100%;
-    overflow: hidden;
+  @include main.main;
 
-    body {
-        height: 100%;
-        overflow: hidden;
-
-        #root {
-            height: 100%;
-            overflow: hidden;
-        }
-    }
-}
-
-ul {
-    list-style-type: none;
-}
-
-.circular {
-    border-radius: 50%;
-}
-
-.noshow {
-    visibility: none;
-}
-
-.hidden {
-    display: none;
-}
-
-.icon {
-    font-size: inherit;
-    line-height: 0; // Fixes uneven width and height issue.
+  #root {
+    @include f.flex;
+  }
 }

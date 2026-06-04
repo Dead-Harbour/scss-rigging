@@ -1,3 +1,4 @@
-@forward 'layout/media';
-@forward 'layout/flex';
-@forward 'layout/sizes';
+@forward 'common/mixins/flex';
+@forward 'common/mixins/positions';
+@forward 'common/groups/media';
+@forward 'common/mixins/sizes';
