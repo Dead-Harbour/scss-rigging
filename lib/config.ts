@@ -6,7 +6,7 @@ interface Overrides {
     themes?: string;
 }
 
-const PACKAGE_NAME = '@syren-dev-tech/confetti';
+const PACKAGE_NAME = '@dead-harbour/scss-rigging';
 
 // eslint-disable-next-line complexity
 export function viteConfigAliases(overrides?: Overrides) {
