@@ -5,7 +5,7 @@
     "name": "@dead-harbour/scss-rigging",
     "packageManager": "yarn@4.16.0",
     "type": "module",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "files": [
         "scss",
         "dist"
@@ -24,7 +24,7 @@
         }
     },
     "devDependencies": {
-        "@dead-harbour/shipshape": "1.0.1",
+        "@dead-harbour/shipshape": "1.0.0",
         "@stylistic/stylelint-config": "^5.0.0",
         "@stylistic/stylelint-plugin": "^5.1.0",
         "@types/node": "^25.9.1",
