@@ -14,20 +14,21 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Enable corepack
-        run: corepack enable
+        run: corepack enable && corepack prepare $(node -p "require('./package.json').packageManager") --activate
       - name: Node setup
         uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: 'yarn'
+          cache-dependency-path: yarn.lock
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: 'Do the build'
-        run: yarn && yarn build
+        run: corepack yarn install --immutable && corepack yarn build
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: 'Upload dist as artifact'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist
@@ -41,13 +42,17 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v5
+      - name: Enable corepack
+        run: corepack enable && corepack prepare $(node -p "require('./package.json').packageManager") --activate
       - name: 'Node setup'
         uses: actions/setup-node@v5
         with:
           node-version: 22
           registry-url: https://npm.pkg.github.com/
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: 'Fetch dist artifact from build'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: dist
           path: dist
