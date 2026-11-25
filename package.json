@@ -3,7 +3,7 @@
     "description": "A collection of styles to make routine designs simpler.",
     "license": "MIT",
     "name": "@dead-harbour/scss-rigging",
-    "packageManager": "yarn@4.18.0",
+    "packageManager": "yarn@4.19.0",
     "type": "module",
     "version": "1.0.7",
     "files": [
