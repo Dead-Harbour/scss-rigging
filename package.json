@@ -5,7 +5,7 @@
     "name": "@dead-harbour/scss-rigging",
     "packageManager": "yarn@4.19.0",
     "type": "module",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "files": [
         "scss",
         "dist"
