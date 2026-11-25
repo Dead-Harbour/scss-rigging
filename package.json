@@ -32,7 +32,7 @@
         "sass": "^1.104.0"
     },
     "devDependencies": {
-        "@dead-harbour/shipshape": "1.0.7",
+        "@dead-harbour/shipshape": "^1.0.8",
         "@stylistic/stylelint-config": "^5.0.0",
         "@stylistic/stylelint-plugin": "^5.3.0",
         "@types/node": "^26.4.1",

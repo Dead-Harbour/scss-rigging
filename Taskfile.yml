@@ -1,0 +1,66 @@
+version: '3'
+
+tasks:
+  sync:
+    desc: Sync local repository with remote, pruning deleted branches and tags
+    cmds:
+      - git fetch origin --prune --prune-tags
+
+  create-and-push-tag:
+    desc: Create and push a git tag for the current version if it doesn't exist
+    deps:
+      - sync
+    vars:
+      PACKAGE_VERSION:
+        sh: node -e "const pkg=require('./package.json'); process.stdout.write(pkg.version)"
+      TAG: v{{.PACKAGE_VERSION}}
+    cmds:
+      - |
+        if git rev-parse -q --verify "refs/tags/{{.TAG}}" >/dev/null 2>&1; then
+          echo "Tag {{.TAG}} already exists in the repository."
+        else
+          git tag "{{.TAG}}"
+          echo "Created tag {{.TAG}}"
+          git push origin "{{.TAG}}"
+          echo "Pushed tag {{.TAG}} to remote repository"
+        fi
+
+  up-deps:
+    desc: Upgrade all dependencies to their latest versions
+    cmds:
+      - |
+        if ! command -v jq >/dev/null 2>&1; then
+          echo "Error: jq is required but not installed." >&2
+          exit 1
+        fi
+      - |
+        echo "Extracting dependencies from package.json..."
+        DEPS=$(jq -r '.dependencies // {} | keys | .[]' package.json)
+        if [ -z "$DEPS" ]; then
+          echo "No dependencies found."
+        else
+          while IFS= read -r dep; do
+            echo "Upgrading $dep..."
+            yarn up "$dep"
+          done <<< "$DEPS"
+        fi
+
+  up-devdeps:
+    desc: Upgrade all dev dependencies to their latest versions
+    cmds:
+      - |
+        if ! command -v jq >/dev/null 2>&1; then
+          echo "Error: jq is required but not installed." >&2
+          exit 1
+        fi
+      - |
+        echo "Extracting dev dependencies from package.json..."
+        DEPS=$(jq -r '.devDependencies // {} | keys | .[]' package.json)
+        if [ -z "$DEPS" ]; then
+          echo "No dev dependencies found."
+        else
+          while IFS= read -r dep; do
+            echo "Upgrading $dep..."
+            yarn up "$dep"
+          done <<< "$DEPS"
+        fi
